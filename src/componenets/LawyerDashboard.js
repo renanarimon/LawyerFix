@@ -4,12 +4,13 @@ import '../index.css';
 import Grid from '@mui/material/Grid';
 import Item from '@mui/material/Grid';
 import Navigation from './Navigation';
-import PreviewComp from './PreviewComp';
+import Preview from './Preview';
+import { useState } from 'react';
 
 
 
 
-const LawyerDashboard = (userUID) => {
+const LawyerDashboard = ({userUID}) => {
 
   // const previewComponent
   
@@ -19,6 +20,10 @@ const LawyerDashboard = (userUID) => {
   const [allClientReq, setAllClientReq] = React.useState([]);
   const [allLawyers, setAllLawyers] = React.useState([]);
   const [activeCases, setActiveCases] = React.useState([]);
+  const [casesPerLawyer, setCasesPerLawyer] = React.useState([]);
+  const [activeCasesPerLawyer, setActiveCasesPerLawyer] = React.useState([]);
+  const [messages, setMessages] = useState([])
+
 
 
   //OnClick in Navigation conponent -> change the previewIndex 
@@ -26,23 +31,22 @@ const LawyerDashboard = (userUID) => {
     e.preventDefault();
     setPreviewIndex(index);
   }
-
+  console.log(userUID)
   return (
     <div>
         <Grid container spacing={1} >
             <Grid item xs={9}>
               <Item>
-                <PreviewComp preview={previewIndex} allCases={allCases} allCaseTypes={allCaseTypes} allClientReq={allClientReq} allLawyers={allLawyers} activeCases={activeCases} />
+                <Preview preview={previewIndex} lawyerUID={userUID} messages={messages} casesPerLawyer={casesPerLawyer} activeCasesPerLawyer={activeCasesPerLawyer} allCases={allCases} allCaseTypes={allCaseTypes} allClientReq={allClientReq} allLawyers={allLawyers} activeCases={activeCases} />
               </Item>
             </Grid>
             <Grid item xs={3}>
               <Item>
-                <Navigation onClick={changeIndex} setAllCases={setAllCases} setAllCaseTypes={setAllCaseTypes} setAllClientReq={setAllClientReq} setAllLawyers={setAllLawyers} setActiveCases={setActiveCases}  />
+                <Navigation onClick={changeIndex} setMessages={setMessages} setActiveCasesPerLawyer={setActiveCasesPerLawyer} setCasesPerLawyer={setCasesPerLawyer} setAllCases={setAllCases} setAllCaseTypes={setAllCaseTypes} setAllClientReq={setAllClientReq} setAllLawyers={setAllLawyers} setActiveCases={setActiveCases} Lawyer_uid={userUID} />
               </Item>
             </Grid>
           </Grid>
     </div>
-
   )
 }
 

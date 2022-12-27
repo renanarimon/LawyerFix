@@ -72,13 +72,13 @@ function Row(props) {
       <TableRow>
         
           <Container in={open} timeout="auto" unmountOnExit>
-            {console.log("Descriptions")}
-            {console.log(Descriptions.length)}
+            {/* {console.log("Descriptions")}
+            {console.log(Descriptions.length)} */}
             
 
              {
                 Descriptions.length>0 ? Descriptions.map((description) => (
-                  console.log(description),
+                  // console.log(description),
                   descriptionKey=descriptionKey+1 ,
                   <TableDescription index ={descriptionKey} text={description}/>
                   
@@ -122,7 +122,7 @@ export default function CollapsibleTable(props) {
                   {
                    
                  props.cases.map((row) => (
-                    console.log(row),
+                    console.log(row.CaseNum),
                     index=index+1,
                     <Row key={row.CaseNum} row={row} casesTypes={props.casesType} index={index}/>
                   ))

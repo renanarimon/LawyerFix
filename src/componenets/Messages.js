@@ -5,19 +5,29 @@ import Button from '@mui/material/Button';
 import { getDatabase, ref, child, get } from "firebase/database";
 import Message from './Message';
 import { Box } from '@mui/system';
+import Title from './Title';
 
 
 
-const Massages = ({messages}) => {
+const Messages = ({messages}) => {
+
+  
 
   return (
-    <div style={{display:'grid' , textAlign:'center', justify_items: 'center'}}>
-      {Object.values(messages).map(message => (
-        <Message text={message}>{message}</Message>
-      ))}
-    </div>
+    
+    
+    <div className='messages-container'>
+      <Title title={"CHAT WITH LAWYER"} />
+    {Object.entries(messages).map((k) => (
+      <Message name={k[0]} text={k[1]}>{k}</Message>
+    ))}
+
+  </div>
+
+ 
+    
 
   )
 }
 
-export default Massages
+export default Messages

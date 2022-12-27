@@ -1,21 +1,18 @@
 import React, { useEffect, useState } from 'react';
 import Button from '@mui/material/Button';
 import TextField from '@mui/material/TextField';
-import { getDatabase, ref, set } from "firebase/database";
+import { child, get, getDatabase, ref, set } from "firebase/database";
 import { Select, MenuItem,Box } from '@mui/material';
 import styled from '@emotion/styled';
+import AddUser from './AddUser';
 
 
-
-// const Container = styled(Box)({
-//     background: "blue"
-// })
-
-const CreateNewCase = ({currCaseTypeDetails,currHandlingLawyers}) => {
+const CreateNewCase = ( props ) => {
     const [newCaseNum, setNewCaseNum] = useState('');
     const [newClientName, setNewClinetName] = useState('');
     const [newCaseType, setNewCaseType] = React.useState('');
     const [newHandlingLawyer, setNewHandlingLawyer] = React.useState('');
+
 
     const handleNewCaseNum = (event) => {
         setNewCaseNum(event.target.value);
@@ -36,12 +33,18 @@ const CreateNewCase = ({currCaseTypeDetails,currHandlingLawyers}) => {
         setNewHandlingLawyer('');
     };
 
-    const caseTypeList = Object.keys(currCaseTypeDetails)
-    const lawyersList = Object.values(currHandlingLawyers)
+    const caseTypeList = Object.keys(props.currCaseTypeDetails)
+    const lawyersList = Object.values(props.currHandlingLawyers)
 
     function writeNewCase() {
+        if(newCaseNum === '' || newClientName === '' || newCaseType === '' || newHandlingLawyer === ''){
+            alert("empty fields")
+            return
+        }
         const db = getDatabase();
-        let plaster = 'Cases/'+newCaseNum;
+        let plaster = 'Cases/'+ newCaseNum;
+        console.log(JSON.stringify(props, null, 2))
+        console.log(Object.keys(props.currHandlingLawyers))
         set(ref(db, plaster), {
             CaseNum: newCaseNum,
             CaseType: newCaseType,
@@ -49,6 +52,8 @@ const CreateNewCase = ({currCaseTypeDetails,currHandlingLawyers}) => {
             CurrStage: 1,
             Lawyer: newHandlingLawyer,
             Status: 1,
+            // UID: clientUID,
+            LawyerUID: Object.keys(props.currHandlingLawyers)[0],
         })
         clearAllFields();
         alert("נוצר תיק חדש")
@@ -92,10 +97,6 @@ const CreateNewCase = ({currCaseTypeDetails,currHandlingLawyers}) => {
                 </Select>
             </div>
 
-
-
-
-
             <div style={{marginTop:'10px'}}>
 
                 <label style={{fontSize:'17px',fontWeight:'bold',color:'#523A28', marginLeft:'12px'}}>עורך דין</label>
@@ -111,10 +112,16 @@ const CreateNewCase = ({currCaseTypeDetails,currHandlingLawyers}) => {
                     {lawyersList.map((lawyer,index) => (<MenuItem key={index} value={lawyer}>{lawyer}</MenuItem>))}
                 </Select>
             </div>
+
+            <div>
+                <AddUser userType={'Client'} />
+            </div>
             
             <div>
                 <button onClick={writeNewCase} className="btn-casetype" style={{marginTop:'20px',width:'33%'}}>הוסף תיק</button>
             </div>
+
+            
             
         </div>
     )

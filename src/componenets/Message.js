@@ -1,9 +1,10 @@
 import * as React from 'react';
 import Box from '@mui/material/Box';
 
-export default function Message({text}) {
+export default function Message({name, text}) {
+
   return (
-    <div style={{ width: '50%'}}>
+    <div style={{ width: '100%'}}>
       <Box
         component="span"
         sx={{
@@ -21,7 +22,15 @@ export default function Message({text}) {
           fontWeight: '700',
         }}
       >
-        {text}
+        <>
+        {name[1] === 'R'?
+        "CLIENT: " + text
+
+        :
+        "LAWYER: " + text
+
+        }
+        </>
       </Box>
     </div>
   );

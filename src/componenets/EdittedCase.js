@@ -95,43 +95,6 @@ const EdittedCase = ({ currCaseDetails, currHandlingLawyers, setShowCase, setCur
                 
                 />
             </div>
-           
-
-
-
-
-            {/* <TextField
-                disabled
-                multiline
-                margin="dense"
-                id="casenum"
-                label="מספר תיק"
-                fullWidth
-                variant="standard"
-                defaultValue={currCaseDetails.CaseNum}
-            /> */}
-            {/* <TextField
-                multiline
-                margin="dense"
-                id="casenum"
-                label="שם לקוח"
-                fullWidth
-                variant="standard"
-                defaultValue={clientName}
-                onChange={handleNewClientName}
-            /> */}
-            {/* <TextField
-                disabled
-                multiline
-                margin="dense"
-                id="casenum"
-                label="סוג תיק"
-                fullWidth
-                variant="standard"
-                defaultValue={currCaseDetails.CaseType}
-            /> */}
-
-
             
             <div style={{marginTop:'10px'}}>
 

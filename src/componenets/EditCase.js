@@ -13,6 +13,8 @@ const EditCase = ({ allCases, currHandlingLawyers,currCaseTypeDetails}) => {
         setShowCase(false);
     };
     const handleCloseCaseDetails = (event) => {
+        setCaseId('')
+        setCurrCaseDetails()
         setShowCase(true);
     };
     const handleCaseId = (event) => {

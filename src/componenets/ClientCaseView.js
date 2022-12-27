@@ -5,6 +5,7 @@ import FormControlLabel from '@mui/material/FormControlLabel';
 import FormControl from '@mui/material/FormControl';
 import FormLabel from '@mui/material/FormLabel';
 import styled from '@emotion/styled';
+import Title from './Title';
 
 
 // FormControl
@@ -20,7 +21,7 @@ const ClientCaseView = ({ currCaseDetails, backToSearchBar }) => {
 
     return (
         <div style={{display:'grid' , textAlign:'center', direction:'rtl'} }>
-            
+            <Title title={"CASE DETAILS"} />
             <div>
                 <label>מספר תיק</label>
                 <input  type='text'

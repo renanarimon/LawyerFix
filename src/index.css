@@ -142,7 +142,7 @@ footer {
 
   .titleCases{
     text-align: center;
-    width: 100%;
+    width: 90%;
     padding: 2px;
     margin-bottom: 20px;
     /* margin-top: 10px; */
@@ -283,8 +283,14 @@ footer {
   justify-content: center;
   text-align: center;
   display: grid;
+  
 }
+.messages-container{
+  justify-items: center;
+  text-align: center;
+  display: grid;
 
+}
 
 .input{
   margin-top: 20px;

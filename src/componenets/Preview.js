@@ -2,19 +2,20 @@ import React, { useState } from 'react'
 import Title from './Title'
 import CollapsibleTable from './CollapsibleTable'
 import CreateNewCaseType from './CreateNewCasseType'
-import AddLawyer from './AddLawyer'
+import AddUser from './AddUser'
 import { onValue, ref , set,getDatabase,child,get} from "firebase/database";
 import CaseTypeTable from './CaseTypeTable'
 import CreateNewCase from './CreateNewCase'
 import EditCase from './EditCase'
 import ClientRequests from './ClientRequests'
+import Messages from './Messages'
 
 
 
-const PreviewComp = (props) => {
-  
-
+const Preview = (props) => {
+  console.log(`preview lawyer uid: ${props.lawyerUID}`)
     if(props.preview === 0){
+        // console.log(props.activeCases)
         return (
             <div className='container'>
                 <Title title={"תיקים פעילים"}/>
@@ -23,7 +24,7 @@ const PreviewComp = (props) => {
           )
     }
     else if(props.preview===1){
-      console.log(props.allCases)
+    //   console.log(props.allCases)
         return (
             <div className='container'>
                 <Title title={"כל התיקים"} />
@@ -33,7 +34,7 @@ const PreviewComp = (props) => {
     }
     else if(props.preview===2){
 
-        console.log(props.allCaseTypes)
+        // console.log(props.allCaseTypes)
         const casesTypeprop = props.allCaseTypes
         const b = Object.entries(casesTypeprop)
         const c = b.map((item) => item[1])
@@ -47,11 +48,11 @@ const PreviewComp = (props) => {
           )
     }
     else if(props.preview===3){
-
+        console.log(`3 lawyer uid: ${props.lawyerUID}`)
         return (
             <div className='container'>
                 <Title title={"יצירת תיק חדש"} />
-                <CreateNewCase currCaseTypeDetails={props.allCaseTypes} currHandlingLawyers={props.allLawyers}/>
+                <CreateNewCase currCaseTypeDetails={props.allCaseTypes} currHandlingLawyers={props.allLawyers} lawyeruid={props.lawyeruid}/>
             </div>
           )
     }
@@ -67,14 +68,14 @@ const PreviewComp = (props) => {
         return (
             <div className='container'>
                 <Title title={"הוספת עורך דין"}/>
-                <AddLawyer />
+                <AddUser userType={'Lawyer'} lawyeruid={props.lawyeruid}/>
             </div>
           )
 
     }
 
     else if(props.preview===7){
-
+        
       console.log(props.allClientReq)
       const b = Object.entries(props.allClientReq)
       console.log(b)
@@ -87,6 +88,7 @@ const PreviewComp = (props) => {
           <div className='container'>
               <Title title={"בקשות לקוח"}/>
               <ClientRequests Requests={c}/>
+              {/* <Messages messages={props.messages}/> */}
           </div>
         )
 
@@ -104,4 +106,4 @@ const PreviewComp = (props) => {
   
 }
 
-export default PreviewComp
+export default Preview

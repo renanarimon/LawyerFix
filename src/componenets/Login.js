@@ -5,28 +5,28 @@ import { TextField } from '@mui/material';
 import LawyerDashboard from './LawyerDashboard';
 import {signInWithEmailAndPassword } from "firebase/auth";
 import { auth } from '../utils/firebase';
-import ClientSearch from './ClientSearch';
+import ClientSearch from './ClientDashboard';
 import { getDatabase, ref, child, get } from "firebase/database";
 
 
-const LawyerLogin = ({loginType, setConnected}) => {
+const Login = ({loginType, setConnected}) => {
 
   const [showAdmin, setShowAdmin] = useState(true);
-  const [lawyerUsername, setLawyerUsername] = useState('');
-  const [lawyerPassword, setLawyerPassword] = useState('');
+  const [username, setUsername] = useState('');
+  const [password, setPassword] = useState('');
   const [userUID, setUserUid] = useState('');
 
-  const handleLawyerUsername = (event) => {
-    setLawyerUsername(event.target.value);
+  const handleUsername = (event) => {
+    setUsername(event.target.value);
   };
-  const handleLawyerPassword = (event) => {
-    setLawyerPassword(event.target.value);
+  const handlePassword = (event) => {
+    setPassword(event.target.value);
   };
-  const GetLawyerLogin = React.useCallback((lawyerUsername, lawyerPassword) => {
+  const GetLogin = React.useCallback((user_name, Password) => {
     if (true) {
-      console.log(lawyerUsername)
-      console.log(lawyerPassword)
-      signInWithEmailAndPassword(auth, lawyerUsername, lawyerPassword)
+      console.log(user_name)
+      console.log(Password)
+      signInWithEmailAndPassword(auth, user_name, Password)
         .then((userCredential) => {
           // Signed in 
           const user = userCredential.user;
@@ -52,15 +52,15 @@ const LawyerLogin = ({loginType, setConnected}) => {
 
 
   const OnLoginClick = () => {
-    GetLawyerLogin(lawyerUsername, lawyerPassword)
+    GetLogin(username, password)
   };
   
   return (
     <>
       {showAdmin ?
         <div className='container' style={{justifyContent:'center', display:'grid'}}>
-          <TextField  sx={{input: {textAlign: "center"}}} id="filled-basic" label='מייל' onChange={handleLawyerUsername} variant="filled" />
-          <TextField id="outlined-password-input" label='סיסמא' onChange={handleLawyerPassword} variant="filled" type="password"  style={{marginTop:'20px'}}/>
+          <TextField  sx={{input: {textAlign: "center"}}} id="filled-basic" label='מייל' onChange={handleUsername} variant="filled" />
+          <TextField id="outlined-password-input" label='סיסמא' onChange={handlePassword} variant="filled" type="password"  style={{marginTop:'20px'}}/>
           <div>
              <button onClick={OnLoginClick} className="btn-casetype" style={{marginTop:'20px',width:'100%'}}>התחבר</button>
           </div>
@@ -68,6 +68,7 @@ const LawyerLogin = ({loginType, setConnected}) => {
         </div>
         : <>
           {loginType==="Admins" && <LawyerDashboard userUID={userUID} /> }
+          {loginType==="Lawyers" && <LawyerDashboard userUID={userUID} /> }
           {loginType==="Users" && <ClientSearch userUID={userUID} />}
         </>
       }
@@ -75,4 +76,4 @@ const LawyerLogin = ({loginType, setConnected}) => {
   )
 }
 
-export default LawyerLogin
+export default Login

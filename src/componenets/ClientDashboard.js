@@ -5,7 +5,8 @@ import ClientCaseView from './ClientCaseView';
 import { getDatabase, ref, child, get } from "firebase/database";
 import ClientReq from './ClientReq';
 import ClientRequests from './ClientRequests';
-import Massages from './Massages';
+import Messages from './Messages';
+import WriteMessage from './WriteMessage';
 
 
 const ClientSearch = ({userUID}) => {
@@ -41,7 +42,6 @@ const ClientSearch = ({userUID}) => {
           SetMessages(snapshot.val())
 
         } else {
-          alert("case number dosen't belong to this user")
         }
       }).catch((error) => {
         console.error(error);
@@ -81,13 +81,17 @@ const ClientSearch = ({userUID}) => {
         </div>
         :
         <>
-        <div>
-          {/* <ClientCaseView currCaseDetails={currCaseDetails} backToSearchBar={backToSearchBar}/>
-          <ClientReq/> */}
-          <Massages messages={messages}/>
-
-          {/* <ClientRequests/> */}
+        <div style={{display: 'flex', justifyContent: 'space-between'}}>
+          <div style={{float: 'left', width: '30%'}}>
+            <Messages messages={messages}/>
+            <WriteMessage caseNum={clientCaseId} userType={0}/>
+            {/* <ClientReq/> */}
+            
           </div>
+          <div style={{float: 'right', width: '60%'}}>
+            <ClientCaseView currCaseDetails={currCaseDetails} backToSearchBar={backToSearchBar}/> 
+          </div>
+        </div>
         </>
       }
     </>
