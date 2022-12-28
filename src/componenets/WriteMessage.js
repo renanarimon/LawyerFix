@@ -33,12 +33,9 @@ const WriteMessage = ({ caseNum, userType, GetMessages }) => {
         const db = getDatabase();
         let path = 'Requests/' + caseNum
         remove(ref(db, path))
-        // setIsOpen(false)
         setNewClientRequest('')
         GetMessages(caseNum)
         setCounter(1)
-        // console.log("counter on close: " + counter)
-        // alert("פנייה נסגרה בהצלחה")
     }
 
     const writeData = () => {
