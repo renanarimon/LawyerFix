@@ -12,6 +12,7 @@ const CreateNewCase = ( props ) => {
     const [newClientName, setNewClinetName] = useState('');
     const [newCaseType, setNewCaseType] = React.useState('');
     const [newHandlingLawyer, setNewHandlingLawyer] = React.useState('');
+    const [newHandlingLawyerUID, setNewHandlingLawyerUID] = React.useState('');
 
 
     const handleNewCaseNum = (event) => {
@@ -25,7 +26,12 @@ const CreateNewCase = ( props ) => {
     };
     const handleNewHandlingLawyer = (event) => {
         setNewHandlingLawyer(event.target.value);
+        // setNewHandlingLawyerUID(event.target);
     };
+    // const handleNewHandlingLawyerUID = (event) => {
+    //     setNewHandlingLawyer(event.target.key);
+    // };
+
     const clearAllFields = () => {
         setNewCaseNum('');
         setNewClinetName('');
@@ -43,8 +49,8 @@ const CreateNewCase = ( props ) => {
         }
         const db = getDatabase();
         let plaster = 'Cases/'+ newCaseNum;
-        console.log(JSON.stringify(props, null, 2))
-        console.log(Object.keys(props.currHandlingLawyers))
+        console.log(JSON.stringify(props, null, 3))
+        
         set(ref(db, plaster), {
             CaseNum: newCaseNum,
             CaseType: newCaseType,
@@ -52,8 +58,7 @@ const CreateNewCase = ( props ) => {
             CurrStage: 1,
             Lawyer: newHandlingLawyer,
             Status: 1,
-            // UID: clientUID,
-            LawyerUID: Object.keys(props.currHandlingLawyers)[0],
+            LawyerUID: props.lawyeruid,
         })
         clearAllFields();
         alert("נוצר תיק חדש")

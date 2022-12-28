@@ -19,7 +19,7 @@ const Preview = (props) => {
         return (
             <div className='container'>
                 <Title title={"תיקים פעילים"}/>
-                <CollapsibleTable cases={props.activeCases} casesType={props.allCaseTypes} />
+                <CollapsibleTable cases={props.activeCasesPerLawyer} casesType={props.allCaseTypes} />
             </div>
           )
     }
@@ -28,7 +28,7 @@ const Preview = (props) => {
         return (
             <div className='container'>
                 <Title title={"כל התיקים"} />
-                <CollapsibleTable cases={props.allCases} casesType={props.allCaseTypes} />
+                <CollapsibleTable cases={props.casesPerLawyer} casesType={props.allCaseTypes} />
             </div>
           )
     }
@@ -52,7 +52,7 @@ const Preview = (props) => {
         return (
             <div className='container'>
                 <Title title={"יצירת תיק חדש"} />
-                <CreateNewCase currCaseTypeDetails={props.allCaseTypes} currHandlingLawyers={props.allLawyers} lawyeruid={props.lawyeruid}/>
+                <CreateNewCase currCaseTypeDetails={props.allCaseTypes} currHandlingLawyers={props.allLawyers} lawyeruid={props.lawyerUID}/>
             </div>
           )
     }
@@ -82,8 +82,6 @@ const Preview = (props) => {
       const c = b.map((item) => item[1])
       console.log(c)
       
-
-
       return (
           <div className='container'>
               <Title title={"בקשות לקוח"}/>

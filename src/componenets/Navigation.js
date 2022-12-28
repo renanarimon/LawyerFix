@@ -22,9 +22,6 @@ const Navigation = (props) => {
                     props.setActiveCases(all_active_cases)
                     props.setCasesPerLawyer(cases_per_lawyer)
                     props.setActiveCasesPerLawyer(active_cases_per_lawyer)
-
-
-
                 } else {
                     console.log("No data available");
                 }
@@ -114,7 +111,6 @@ const Navigation = (props) => {
                 props.onClick(e, 0)
                 GetAllCasesFromDB()
             }
-
             }
             >
                 תיקים פעילים
