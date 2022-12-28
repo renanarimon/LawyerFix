@@ -3,6 +3,7 @@ import { useState } from 'react';
 import { onValue, ref, set, getDatabase, child, get } from "firebase/database";
 
 const Navigation = (props) => {
+    console.log("nav userType: " + props.userType)
     const [defaultScreen, setDefaultScreen] = useState(true);
     const [casesNum_per_lawyer, setCasesNum_per_lawyer] = useState([])
 
@@ -67,7 +68,7 @@ const Navigation = (props) => {
             const dbRef = ref(getDatabase());
             get(child(dbRef, `Requests/`)).then((snapshot) => {
                 // Object.values(theObj).includes("bar")
-                if (snapshot.exists() && Object.values(casesNum_per_lawyer).includes(snapshot.val().CaseNum)){
+                if (snapshot.exists() && Object.values(casesNum_per_lawyer).includes(snapshot.val().CaseNum)) {
                     console.log(snapshot.val())
                     props.setMessages(snapshot.val())
 
@@ -101,7 +102,7 @@ const Navigation = (props) => {
         GetAllClientReqFromDB()
         GetAllLawyersFromDB()
         GetAllCaseTypeFromDB()
-        
+
         setDefaultScreen(false)
     }
 
@@ -113,16 +114,16 @@ const Navigation = (props) => {
             }
             }
             >
-                תיקים פעילים
+                תיקים
             </button>
-            <button className="btn-group" onClick={(e) => {
+            {/* <button className="btn-group" onClick={(e) => {
                 props.onClick(e, 1)
                 GetAllCasesFromDB()
             }
 
             }>
                 כל התיקים
-            </button>
+            </button> */}
             <button className="btn-group" onClick={(e) => {
                 props.onClick(e, 2)
                 GetAllCaseTypeFromDB()
@@ -145,8 +146,6 @@ const Navigation = (props) => {
                 props.onClick(e, 3)
                 GetAllCaseTypeFromDB()
                 GetAllLawyersFromDB()
-
-
             }
             }>
                 יצירת תיק חדש
@@ -167,27 +166,31 @@ const Navigation = (props) => {
             }>
                 עריכת תיק קיים
             </button>
-
             <hr
-                style={{
-                    background: '#D0B49F',
-                    color: '#D0B49F',
-                    height: '3px',
-                    width: '100%'
-                }}
-            />
+                    style={{
+                        background: '#D0B49F',
+                        color: '#D0B49F',
+                        height: '3px',
+                        width: '100%'
+                    }}
+                />
 
-            <button className="btn-group" onClick={(e) =>
-                props.onClick(e, 6)}>
-                הוספת עורך דין
-            </button>
-            <button className="btn-group" onClick={(e) => {
-                props.onClick(e, 7)
-                GetAllClientReqFromDB()
-            }
-            }>
-                בקשות לקוח
-            </button>
+
+            {props.userType === 'Admins' 
+                
+                &&
+                <button className="btn-group" onClick={(e) =>
+                    props.onClick(e, 6)}>
+                    הוספת עורך דין
+                </button>
+}
+                <button className="btn-group" onClick={(e) => {
+                    props.onClick(e, 7)
+                    GetAllClientReqFromDB()
+                }
+                }>
+                    בקשות לקוח
+                </button>
 
         </div>
     )

@@ -18,6 +18,8 @@ import { onValue, ref , set,getDatabase,child,get} from "firebase/database";
 import styled from '@emotion/styled';
 import TableDescription from './TableDescription';
 
+import SwitchButton from './SwitchButton';
+
 
 
 const Container = styled(Collapse)({
@@ -105,9 +107,12 @@ export default function CollapsibleTable(props) {
   let index = -1
     
         return (
+          
             <TableContainer component={Paper}>
+              
               <Table aria-label="collapsible table">
                 <TableHead>
+                  
                   <TableRow>
                     <TableCell />
                     <TableCell align="right">מספר תיק</TableCell>

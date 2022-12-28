@@ -67,8 +67,8 @@ const Login = ({loginType, setConnected}) => {
 
         </div>
         : <>
-          {loginType==="Admins" && <LawyerDashboard userUID={userUID} /> }
-          {loginType==="Lawyers" && <LawyerDashboard userUID={userUID} /> }
+          {loginType==="Admins" && <LawyerDashboard userUID={userUID} userType={'Admins'} /> }
+          {loginType==="Lawyers" && <LawyerDashboard userUID={userUID} userType={'Lawyers'} /> }
           {loginType==="Users" && <ClientSearch userUID={userUID} />}
         </>
       }

@@ -10,7 +10,7 @@ import { useState } from 'react';
 
 
 
-const LawyerDashboard = ({userUID}) => {
+const LawyerDashboard = ({userUID, userType}) => {
 
   // const previewComponent
   
@@ -31,18 +31,18 @@ const LawyerDashboard = ({userUID}) => {
     e.preventDefault();
     setPreviewIndex(index);
   }
-  console.log(userUID)
+  console.log("userType: " + userType)
   return (
     <div>
         <Grid container spacing={1} >
             <Grid item xs={9}>
               <Item>
-                <Preview preview={previewIndex} lawyerUID={userUID} messages={messages} casesPerLawyer={casesPerLawyer} activeCasesPerLawyer={activeCasesPerLawyer} allCases={allCases} allCaseTypes={allCaseTypes} allClientReq={allClientReq} allLawyers={allLawyers} activeCases={activeCases} />
+                <Preview userType={userType} preview={previewIndex} lawyerUID={userUID} messages={messages} casesPerLawyer={casesPerLawyer} activeCasesPerLawyer={activeCasesPerLawyer} allCases={allCases} allCaseTypes={allCaseTypes} allClientReq={allClientReq} allLawyers={allLawyers} activeCases={activeCases} />
               </Item>
             </Grid>
             <Grid item xs={3}>
               <Item>
-                <Navigation onClick={changeIndex} setMessages={setMessages} setActiveCasesPerLawyer={setActiveCasesPerLawyer} setCasesPerLawyer={setCasesPerLawyer} setAllCases={setAllCases} setAllCaseTypes={setAllCaseTypes} setAllClientReq={setAllClientReq} setAllLawyers={setAllLawyers} setActiveCases={setActiveCases} Lawyer_uid={userUID} />
+                <Navigation userType={userType} onClick={changeIndex} setMessages={setMessages} setActiveCasesPerLawyer={setActiveCasesPerLawyer} setCasesPerLawyer={setCasesPerLawyer} setAllCases={setAllCases} setAllCaseTypes={setAllCaseTypes} setAllClientReq={setAllClientReq} setAllLawyers={setAllLawyers} setActiveCases={setActiveCases} Lawyer_uid={userUID} />
               </Item>
             </Grid>
           </Grid>

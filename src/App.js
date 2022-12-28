@@ -1,6 +1,7 @@
 import React from 'react'
 import Login from './componenets/Login';
 import Logo from './componenets/Logo';
+import SwitchButton from './componenets/SwitchButton';
 
 function App() {
   const [loginType, setloginType] = React.useState('main');
@@ -34,6 +35,7 @@ function App() {
         {(loginType === 'main')?
   
   <div style={{display:'grid' , textAlign:'center', marginTop:'100px'} }>
+    
           <div>
         <button onClick={openAdminPortal} className="btn-casetype" style={{width:'50%',justifyContent:'center'}}>מנהל</button>
         </div>
