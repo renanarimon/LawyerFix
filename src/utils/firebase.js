@@ -2,6 +2,10 @@
 import { initializeApp } from "firebase/app";
 import { getDatabase } from "firebase/database";
 import { getAuth } from "firebase/auth";
+// import firebase from 'firebase/app';
+// import { initializeApp } from 'firebase/app';
+import 'firebase/database';
+
 
 
 // TODO: Add SDKs for Firebase products that you want to use
@@ -20,7 +24,9 @@ const firebaseConfig = {
   measurementId: "G-N6VSD61K4L"
 };
 
+// initializeApp(firebaseConfig)
+
 // Initialize Firebase
-const app = initializeApp(firebaseConfig);
-export const db = getDatabase(app);
-export const auth = getAuth(app);
+export const database = initializeApp(firebaseConfig);
+export const db = getDatabase(database);
+export const auth = getAuth(database);

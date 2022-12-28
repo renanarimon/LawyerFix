@@ -1,10 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { TextField } from '@mui/material';
-import Button from '@mui/material/Button';
 import ClientCaseView from './ClientCaseView';
 import { getDatabase, ref, child, get } from "firebase/database";
-import ClientReq from './ClientReq';
-import ClientRequests from './ClientRequests';
 import Messages from './Messages';
 import WriteMessage from './WriteMessage';
 
@@ -21,7 +18,7 @@ const ClientSearch = ({userUID}) => {
       console.log(clientCaseId)
       const dbRef = ref(getDatabase());
       get(child(dbRef, `Cases/${clientCaseId}`)).then((snapshot) => {
-        if (snapshot.exists() && snapshot.val().UID === userUID) {
+        if (snapshot.exists()) {
           setCurrCaseDetails(snapshot.val())
         } else {
           alert("case number dosen't belong to this user")
@@ -33,8 +30,8 @@ const ClientSearch = ({userUID}) => {
   }, [true])
 
   const GetMessages = React.useCallback((clientCaseId) => {
+    
     if (true) {
-      // console.log(clientCaseId)
       const dbRef = ref(getDatabase());
       get(child(dbRef, `Requests/${clientCaseId}`)).then((snapshot) => {
         if (snapshot.exists()) {
@@ -42,6 +39,9 @@ const ClientSearch = ({userUID}) => {
           SetMessages(snapshot.val())
 
         } else {
+          SetMessages([])
+          console.log("cant find ref")
+
         }
       }).catch((error) => {
         console.error(error);
@@ -56,7 +56,6 @@ const ClientSearch = ({userUID}) => {
   const OnSearchClick = () => {
     GetCaseData(clientCaseId)
     GetMessages(clientCaseId)
-    // console.log(messages)
   };
 
   useEffect(() => {
@@ -71,6 +70,7 @@ const ClientSearch = ({userUID}) => {
 
   return (
     <>
+    
       {showSearch ?
         <div className='container' style={{ justifyContent: 'center', display: 'grid' }}>
           <TextField id="filled-basic" label='מספר תיק' onChange={handleClientCaseId} variant="filled" />
@@ -84,8 +84,7 @@ const ClientSearch = ({userUID}) => {
         <div style={{display: 'flex', justifyContent: 'space-between'}}>
           <div style={{float: 'left', width: '30%'}}>
             <Messages messages={messages}/>
-            <WriteMessage caseNum={clientCaseId} userType={0}/>
-            {/* <ClientReq/> */}
+            <WriteMessage caseNum={clientCaseId} userType={0} GetMessages={GetMessages}/>
             
           </div>
           <div style={{float: 'right', width: '60%'}}>

@@ -1,11 +1,6 @@
 import React from 'react'
-import { useState } from 'react'
-import ClientSearch from './componenets/ClientDashboard';
 import Login from './componenets/Login';
-import NewLogin from './componenets/NewLogin';
-import ClientReq from './componenets/ClientReq'
 import Logo from './componenets/Logo';
-import Button from '@mui/material/Button';
 
 function App() {
   const [loginType, setloginType] = React.useState('main');
