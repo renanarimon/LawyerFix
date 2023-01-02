@@ -34,22 +34,22 @@ function App() {
 
         {(loginType === 'main')?
   
-  <div style={{display:'grid' , textAlign:'center', marginTop:'100px'} }>
+  <div style={{display:'grid' , textAlign:'center'} }>
     
           <div>
-        <button onClick={openAdminPortal} className="btn-casetype" style={{width:'50%',justifyContent:'center'}}>מנהל</button>
+        <button onClick={openAdminPortal} className="btn-casetype" style={{width:'30%',justifyContent:'center'}}>מנהל</button>
         </div>
         <div>
-        <button onClick={openlawyerPortal} className="btn-casetype" style={{width:'50%',justifyContent:'center'}}>עורך דין</button>
+        <button onClick={openlawyerPortal} className="btn-casetype" style={{width:'30%',justifyContent:'center'}}>עורך דין</button>
         </div>
          <div>
-        <button onClick={openUserPortal} className="btn-casetype" style={{width:'50%',justifyContent:'center'}}>לקוח</button>
+        <button onClick={openUserPortal} className="btn-casetype" style={{width:'30%',justifyContent:'center'}}>לקוח</button>
         </div>
         </div>
         :
         <>
 
-         {<Login loginType={loginType} setConnected={setConnected} />}
+         {<Login loginType={loginType} setConnected={setConnected} setloginType={setloginType} />}
 
         </>
         }

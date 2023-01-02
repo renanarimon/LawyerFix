@@ -152,4 +152,4 @@ const EdittedCase = ({ currCaseDetails, currHandlingLawyers, setShowCase, setCur
     )
 }
 
-export default EdittedCase
+export default EdittedCase

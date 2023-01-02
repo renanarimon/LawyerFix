@@ -37,7 +37,7 @@ const LawyerDashboard = ({userUID, userType}) => {
         <Grid container spacing={1} >
             <Grid item xs={9}>
               <Item>
-                <Preview userType={userType} preview={previewIndex} lawyerUID={userUID} messages={messages} casesPerLawyer={casesPerLawyer} activeCasesPerLawyer={activeCasesPerLawyer} allCases={allCases} allCaseTypes={allCaseTypes} allClientReq={allClientReq} allLawyers={allLawyers} activeCases={activeCases} />
+                <Preview  userType={userType} preview={previewIndex} lawyerUID={userUID} messages={messages} casesPerLawyer={casesPerLawyer} activeCasesPerLawyer={activeCasesPerLawyer} allCases={allCases} allCaseTypes={allCaseTypes} allClientReq={allClientReq} allLawyers={allLawyers} activeCases={activeCases} />
               </Item>
             </Grid>
             <Grid item xs={3}>

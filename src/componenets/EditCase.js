@@ -21,11 +21,14 @@ const EditCase = ({ allCases, currHandlingLawyers,currCaseTypeDetails}) => {
         setCaseId(event.target.value);
     };
     const FilterCurrCase = () => {
-        const temp = allCases.filter(item => item.CaseNum == caseId)
-        setCurrCaseDetails(temp)
-        if (currCaseDetails) {
-            setCurrCaseDetails(currCaseDetails[0])
+        const curr_case = allCases.filter(item => item.CaseNum == caseId)
+        console.log("curr_case: %o" , curr_case[0])
+        if (curr_case.length > 0) {
+            setCurrCaseDetails(curr_case[0])
             handleOpenCaseDetails();
+        }else{
+            setShowCase(true)
+            alert("case dosent exist")
         }
     };
     return (

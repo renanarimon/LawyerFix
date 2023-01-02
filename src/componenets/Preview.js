@@ -11,11 +11,18 @@ import ClientRequests from './ClientRequests'
 import Messages from './Messages'
 import SwitchButton from './SwitchButton'
 
+/**
+ * TODO: לדאוג שיהיה ריסט למידע כשיוצאים מהמשתמש, 
+ * כדי שכשמשתמש חדש יכנס יהיה את המידע שלו ולא את של הקודם
+ * @param {*} props 
+ * @returns 
+ */
+
 const Preview = (props) => {
     const [showAllCases, setShowAllCases] = useState(false)
     const [showAllCasesPerLawyer, setShowAllCasesPerLawyer] = useState(false)
-    const [showActiveCases, setShowActiveCases] = useState(true)
-    const [showActiveCasesPerLawyer, setShowActiveCasesPerLawyer] = useState(false)
+    const [showActiveCases, setShowActiveCases] = useState(false)
+    const [showActiveCasesPerLawyer, setShowActiveCasesPerLawyer] = useState(true)
 
     const onClickAllPerLawyer = () => {
         setShowAllCasesPerLawyer(true)
@@ -55,13 +62,13 @@ const Preview = (props) => {
 
 
                 {showAllCasesPerLawyer &&
-                    <CollapsibleTable cases={props.casesPerLawyer} casesType={props.allCaseTypes} />}
+                    <CollapsibleTable cases={props.casesPerLawyer} casesType={props.allCaseTypes}  />}
                 {showAllCases &&
                     <CollapsibleTable cases={props.allCases} casesType={props.allCaseTypes} />}
                 {showActiveCases &&
                 <CollapsibleTable cases={props.activeCases} casesType={props.allCaseTypes} />}
                 {showActiveCasesPerLawyer &&
-                <CollapsibleTable cases={props.activeCasesPerLawyer} casesType={props.allCaseTypes} />}
+                <CollapsibleTable cases={props.activeCasesPerLawyer} casesType={props.allCaseTypes}  />}
 
             </div>
         )

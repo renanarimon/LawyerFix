@@ -13,6 +13,7 @@ import Typography from '@mui/material/Typography';
 import Paper from '@mui/material/Paper';
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
+import QuickChanges from './QuickChanges';
 
 import { onValue, ref , set,getDatabase,child,get} from "firebase/database";
 import styled from '@emotion/styled';
@@ -69,7 +70,7 @@ function Row(props) {
         <TableCell align="right">{row.ClientName}</TableCell>
         <TableCell align="right">{row.CaseType}</TableCell>
         <TableCell align="right">{row.CurrStage}</TableCell>
-        <TableCell align="right">שם חברה</TableCell>
+        <TableCell align="right"> {<QuickChanges CaseNum={row.CaseNum} CurrStage={row.CurrStage} />} </TableCell>
       </TableRow>
       <TableRow>
         
