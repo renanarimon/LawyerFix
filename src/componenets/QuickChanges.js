@@ -3,10 +3,13 @@ import { Fab } from '@mui/material';
 import AddIcon from '@mui/icons-material/Add';
 import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
+import ChatIcon from '@mui/icons-material/Chat';
 import Tooltip from '@mui/material/Tooltip';
 import { getDatabase, ref, child, get, set, update, remove } from "firebase/database";
 // import EditCase from './EditCase';
 import EdittedCase from './EdittedCase';
+import Messages from './Messages';
+import WriteMessage from './WriteMessage';
 
 import Dialog from '@mui/material/Dialog';
 import DialogActions from '@mui/material/DialogActions';
@@ -17,6 +20,8 @@ import DialogTitle from '@mui/material/DialogTitle';
 
 const QuickChanges = ( props ) => {
     const [OpenEditCase, setOpenEditCase] = React.useState(false);
+    const [OpenMessages, setOpenMessages] = React.useState(false);
+    const [messages, SetMessages] = useState([])
     function promoteCaseStage() {
         const db = getDatabase();
         let plaster = 'Cases/' + props.CaseNum;
@@ -26,12 +31,37 @@ const QuickChanges = ( props ) => {
             CurrStage : props.CurrStage + 1,
         })
     }
+    const GetMessages = React.useCallback(() => {
+      if (true) {
+        const dbRef = ref(getDatabase());
+        get(child(dbRef, `Requests/${props.CaseNum}`)).then((snapshot) => {
+          if (snapshot.exists()) {
+            console.log(snapshot.val())
+            SetMessages(snapshot.val())
+          } else {
+            SetMessages([])
+            console.log("cant find ref")
+  
+          }
+        }).catch((error) => {
+          console.error(error);
+        });
+      }
+    }, [true])
 
     const handleSetOpenEditCase = () => {
         setOpenEditCase(true)
     }
     const handleSetCloseEditCase = () => {
         setOpenEditCase(false)
+    }
+
+    const handleOpenMessages = () =>{
+      GetMessages()
+      setOpenMessages(true)
+    }
+    const handleCloseMessages = () =>{
+      setOpenMessages(false)
     }
 
     const removeCase=() =>{
@@ -41,10 +71,7 @@ const QuickChanges = ( props ) => {
     }
 
     const handleEdit = () =>{
-        console.log("handleEdit 1: ", OpenEditCase)
-        // handleSetOpenEditCase()
-        setOpenEditCase(true)
-        console.log("handleEdit 2: ", OpenEditCase)
+        handleSetOpenEditCase()
         editCase()
     }
 
@@ -54,10 +81,9 @@ const QuickChanges = ( props ) => {
         console.log("edit")
         const db = getDatabase();
         let plaster = 'Cases/' + props.CaseNum;
-        
-
-
     }
+
+    
 
     return (
         <div>
@@ -76,19 +102,33 @@ const QuickChanges = ( props ) => {
           <DeleteIcon />
         </Fab>
       </Tooltip>
-
+      <Tooltip title="הודעות">
+        <Fab color="primary" aria-label="massages" onClick={handleOpenMessages}>
+          <ChatIcon />
+        </Fab>
+      </Tooltip>
+      <>
       {
-        OpenEditCase?
+        OpenEditCase &&
         <Dialog open={OpenEditCase} onClose={handleSetCloseEditCase}>
             <DialogTitle>בקשה לעורך דין</DialogTitle>
             <DialogContent>
                 <EdittedCase/>
             </DialogContent>
         </Dialog>
-
-        :
-        <></>
       }
+
+      {
+        OpenMessages &&
+        <Dialog open={OpenMessages} onClose={handleCloseMessages}>
+            <DialogContent>
+              <Messages messages={messages}/>
+              <WriteMessage caseNum={props.CaseNum} userType={1} GetMessages={GetMessages}/>
+            </DialogContent>
+        </Dialog>
+      }
+      </>
+      
         </div>
     )
 }
