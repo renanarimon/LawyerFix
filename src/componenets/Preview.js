@@ -62,13 +62,13 @@ const Preview = (props) => {
 
 
                 {showAllCasesPerLawyer &&
-                    <CollapsibleTable cases={props.casesPerLawyer} casesType={props.allCaseTypes}  />}
+                    <CollapsibleTable cases={props.casesPerLawyer} casesType={props.allCaseTypes}  currHandlingLawyers={props.allLawyers} />}
                 {showAllCases &&
-                    <CollapsibleTable cases={props.allCases} casesType={props.allCaseTypes} />}
+                    <CollapsibleTable cases={props.allCases} casesType={props.allCaseTypes} currHandlingLawyers={props.allLawyers} />}
                 {showActiveCases &&
-                <CollapsibleTable cases={props.activeCases} casesType={props.allCaseTypes} />}
+                <CollapsibleTable cases={props.activeCases} casesType={props.allCaseTypes}  currHandlingLawyers={props.allLawyers}/>}
                 {showActiveCasesPerLawyer &&
-                <CollapsibleTable cases={props.activeCasesPerLawyer} casesType={props.allCaseTypes}  />}
+                <CollapsibleTable cases={props.activeCasesPerLawyer} casesType={props.allCaseTypes}  currHandlingLawyers={props.allLawyers}  />}
 
             </div>
         )
@@ -124,23 +124,23 @@ const Preview = (props) => {
 
     }
 
-    else if (props.preview === 7) {
+    // else if (props.preview === 7) {
 
-        console.log(props.allClientReq)
-        const b = Object.entries(props.allClientReq)
-        console.log(b)
-        const c = b.map((item) => item[1])
-        console.log(c)
+    //     console.log(props.allClientReq)
+    //     const b = Object.entries(props.allClientReq)
+    //     console.log(b)
+    //     const c = b.map((item) => item[1])
+    //     console.log(c)
 
-        return (
-            <div className='container'>
-                <Title title={"בקשות לקוח"} />
-                <ClientRequests Requests={c} />
-                {/* <Messages messages={props.messages}/> */}
-            </div>
-        )
+    //     return (
+    //         <div className='container'>
+    //             <Title title={"בקשות לקוח"} />
+    //             <ClientRequests Requests={c} />
+    //             {/* <Messages messages={props.messages}/> */}
+    //         </div>
+    //     )
 
-    }
+    // }
 
     else {
         return (

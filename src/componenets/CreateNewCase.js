@@ -26,11 +26,12 @@ const CreateNewCase = ( props ) => {
     };
     const handleNewHandlingLawyer = (event) => {
         setNewHandlingLawyer(event.target.value);
-        // setNewHandlingLawyerUID(event.target);
+        // need to render the name here
+        console.log(newHandlingLawyer)
+        getLawyersUID()
+        console.log(lawyersList)
     };
-    // const handleNewHandlingLawyerUID = (event) => {
-    //     setNewHandlingLawyer(event.target.key);
-    // };
+
 
     const clearAllFields = () => {
         setNewCaseNum('');
@@ -41,6 +42,26 @@ const CreateNewCase = ( props ) => {
 
     const caseTypeList = Object.keys(props.currCaseTypeDetails)
     const lawyersList = Object.values(props.currHandlingLawyers)
+
+    const getLawyersUID =()=>{
+        const dbref = ref(getDatabase());
+        let plaster = 'Lawyers/';
+        get(child(dbref, plaster)).then((snapshot) => {
+            if(snapshot.exists){
+                const values = snapshot.val()
+                console.log("vals: ",values)
+                console.log("name: ",newHandlingLawyer)
+                const ans = Object.keys(values).find(k => values[k] === newHandlingLawyer)
+                console.log("uid: %o",ans)
+            }else(
+                console.log("ERROR: getlawyeruid")
+            )
+            
+        }).catch((error) => {
+            console.log("catch ERROR")
+            console.error(error);
+          });
+    }
 
     function writeNewCase() {
         if(newCaseNum === '' || newClientName === '' || newCaseType === '' || newHandlingLawyer === ''){
@@ -58,7 +79,7 @@ const CreateNewCase = ( props ) => {
             CurrStage: 1,
             Lawyer: newHandlingLawyer,
             Status: 1,
-            LawyerUID: props.lawyeruid,
+            LawyerUID: newHandlingLawyerUID,
         })
         clearAllFields();
         alert("נוצר תיק חדש")
@@ -114,6 +135,7 @@ const CreateNewCase = ( props ) => {
                     onChange={handleNewHandlingLawyer}
                     
                 >
+                    
                     {lawyersList.map((lawyer,index) => (<MenuItem key={index} value={lawyer}>{lawyer}</MenuItem>))}
                 </Select>
             </div>

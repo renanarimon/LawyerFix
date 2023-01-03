@@ -14,7 +14,6 @@ import { getDatabase, ref, set, update, remove } from "firebase/database";
 const WriteMessage = ({ caseNum, userType, GetMessages }) => {
     const [openNewClientRequest, setOpenNewClientRequest] = React.useState(false);
     const [newClientRequest, setNewClientRequest] = useState('');
-    // const [counter, setCounter] = useState(1);
     const [count, setCount] = useState(() => {
         const storedCount = localStorage.getItem('count');
         return storedCount ? parseInt(storedCount, 10) : 1;
@@ -44,7 +43,7 @@ const WriteMessage = ({ caseNum, userType, GetMessages }) => {
         remove(ref(db, path))
         setNewClientRequest('')
         GetMessages(caseNum)
-        setCount(1)
+        // setCount(1)
     }
 
     const writeData = () => {
@@ -78,19 +77,21 @@ const WriteMessage = ({ caseNum, userType, GetMessages }) => {
 
     return (
 
-        <div className='container' style={{ justifyContent: 'center', display: 'grid' }}>
-            <div>
-                <button onClick={handleClickOpenNewClientRequest} className="btn-casetype" style={{ width: '50%' }}>שליחת בקשה</button>
-                <button onClick={handleCloseReq} className="btn-casetype" style={{ width: '50%' }}>סגור פנייה</button>
+        <div className='messages-container' style={{ justifyContent: 'center', display: 'grid' }}>
+
+            <div style={{ display: 'flex', justifyContent: 'space-between' }}>
+                <div style={{ float: 'left', width: '50%' }}>
+                    <button onClick={handleCloseReq} className="btn-casetype" style={{ width: '90%' }}>סגור פנייה</button>
+                </div>
+                <div style={{ float: 'right', width: '50%' }}>
+                    <button onClick={handleClickOpenNewClientRequest} className="btn-casetype" style={{ width: '100%' }}>הודעה חדשה</button>
+
+                </div>
 
             </div>
-            {/* <div>
-                <p>You have clicked the button {count} times</p>
-                <button onClick={() => setCount(count + 1)}>Click me</button>
-            </div> */}
 
             <Dialog open={openNewClientRequest} onClose={handleCloseNewClientRequest}>
-                <DialogTitle>בקשה לעורך דין</DialogTitle>
+                <DialogTitle>הודעות</DialogTitle>
                 <DialogContent>
                     <DialogContentText>
                         נא למלא את הפרטים באופן מלא

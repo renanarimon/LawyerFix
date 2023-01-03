@@ -184,13 +184,13 @@ const Navigation = (props) => {
                     הוספת עורך דין
                 </button>
 }
-                <button className="btn-group" onClick={(e) => {
+                {/* <button className="btn-group" onClick={(e) => {
                     props.onClick(e, 7)
                     GetAllClientReqFromDB()
                 }
                 }>
                     בקשות לקוח
-                </button>
+                </button> */}
 
         </div>
     )

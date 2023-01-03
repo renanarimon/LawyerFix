@@ -70,18 +70,16 @@ function Row(props) {
         <TableCell align="right">{row.ClientName}</TableCell>
         <TableCell align="right">{row.CaseType}</TableCell>
         <TableCell align="right">{row.CurrStage}</TableCell>
-        <TableCell align="right"> {<QuickChanges CaseNum={row.CaseNum} CurrStage={row.CurrStage} />} </TableCell>
+        <TableCell align="right"> {<QuickChanges CaseNum={row.CaseNum} CurrStage={row.CurrStage}  currHandlingLawyers={props.allLawyers} currCaseTypeDetails={props.allCaseTypes}/>} </TableCell>
       </TableRow>
       <TableRow>
         
           <Container in={open} timeout="auto" unmountOnExit>
-            {/* {console.log("Descriptions")}
-            {console.log(Descriptions.length)} */}
+         
             
 
              {
                 Descriptions.length>0 ? Descriptions.map((description) => (
-                  // console.log(description),
                   descriptionKey=descriptionKey+1 ,
                   <TableDescription index ={descriptionKey} text={description}/>
                   
