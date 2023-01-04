@@ -1,3 +1,14 @@
+# lawyerFix - Web App
+### Our website offers an efficient, accessible and above all headache-saving service for law firms.
+After several conversations with lawyers from different fields, we discovered gaps in communication between the client
+for office services.
+The clients call every hour, WhatsApp messages and phone calls that invade privacy.
+The common need, both of the lawyer and the client, led us to think of LawyerFix - an organized system with which the office will work, which allows a full reflection of the situation of the client's case.
+
+![image](https://user-images.githubusercontent.com/77155986/210495449-6bc21b78-794a-4415-a36c-ef29fa06d073.png)
+
+
+
 # Getting Started with Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
