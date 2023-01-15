@@ -15,7 +15,7 @@ code {
 
 .container {
   /* max-width: 500px; */
-  margin: 0px auto;
+  margin: 30px auto;
   /* overflow: auto; */
   /* min-height: 300px; */
   /* border: 1px solid steelblue; */
@@ -142,7 +142,7 @@ footer {
 
   .titleCases{
     text-align: center;
-    width: 90%;
+    width: 100%;
     padding: 2px;
     margin-bottom: 20px;
     /* margin-top: 10px; */
@@ -283,14 +283,8 @@ footer {
   justify-content: center;
   text-align: center;
   display: grid;
-  
 }
-.messages-container{
-  justify-items: center;
-  text-align: center;
-  display: grid;
 
-}
 
 .input{
   margin-top: 20px;
@@ -303,4 +297,69 @@ footer {
    direction:rtl;
 
 
+}
+
+.btn-clicked {
+  display: inline-block;
+  background: white;
+  color: #523A28;
+  border: 2px solid;
+  border-color: #523A28;
+  padding: 10px 20px;
+  margin: 5px;
+  border-radius: 5px;
+  cursor: pointer;
+  text-decoration: none;
+  font-size: 17px;
+  font-family: cursive;
+  font-weight: bold;
+  border-radius: 20px;
+}
+
+
+.btn-not-clicked {
+  display: inline-block;
+  background: #523A28;
+  color: white;
+  border: none;
+  border-color: #D0B49F;
+  padding: 10px 20px;
+  margin: 5px;
+  border-radius: 5px;
+  cursor: pointer;
+  text-decoration: none;
+  font-size: 17px;
+  font-family: cursive;
+  font-weight: bold;
+  border-radius: 20px;
+}
+
+.logo-Login{
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+  width: 40%;
+  padding-top: 20px;
+}
+
+.UserView{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    margin-bottom: 18px;
+}
+
+.logo-dash{
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+  width: 75%;
+  margin-bottom: 18px;
+}
+
+.logo-user{
+  display: block;
+  width: 75%;
+  margin-top: 20px;
 }

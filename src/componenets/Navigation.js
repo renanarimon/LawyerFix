@@ -1,28 +1,50 @@
 import React from 'react'
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { onValue, ref, set, getDatabase, child, get } from "firebase/database";
+import LogoDashboard from './LogoDashboard';
+import UserView from './UserView';
 
 const Navigation = (props) => {
-    console.log("nav userType: " + props.userType)
     const [defaultScreen, setDefaultScreen] = useState(true);
-    const [casesNum_per_lawyer, setCasesNum_per_lawyer] = useState([])
-
 
     const GetAllCasesFromDB = React.useCallback(() => {
         if (true) {
             const dbRef = ref(getDatabase());
             get(child(dbRef, `Cases/`)).then((snapshot) => {
                 if (snapshot.exists()) {
-                    const cases_entries = Object.entries(snapshot.val())
-                    const all_cases = cases_entries.map((item) => item[1])
-                    const cases_per_lawyer = all_cases.filter(item => item.LawyerUID === props.Lawyer_uid);
-                    const all_active_cases = all_cases.filter(item => item.Status === 1);
-                    const active_cases_per_lawyer = cases_per_lawyer.filter(item => item.Status === 1);
-                    const caseNums = all_active_cases.map((item) => item.CaseNum)
-                    props.setAllCases(all_cases)
-                    props.setActiveCases(all_active_cases)
-                    props.setCasesPerLawyer(cases_per_lawyer)
-                    props.setActiveCasesPerLawyer(active_cases_per_lawyer)
+                    const caseEnteries = Object.entries(snapshot.val())
+                    // c all cases
+                    const mappedEnteries = caseEnteries.map((item) => item[1])
+                    // d allactivecases
+                    const filterredEntries = mappedEnteries.filter(item => item.Status === 1);
+                    props.setAllCases(mappedEnteries)
+                    props.setActiveCases(filterredEntries)
+                    const myCases = mappedEnteries.filter(item => item.LawyerUID == props.userUID)
+                    const myActiveCases = filterredEntries.filter(item => item.LawyerUID == props.userUID)
+                    props.setMyCases(myCases)
+                    props.setMyActiveCases(myActiveCases)
+
+                } else {
+                    console.log("No data available");
+                }
+            }).catch((error) => {
+                console.error(error);
+            });
+        }
+    }, [true])
+
+    const GetAllUsersFromDB = React.useCallback(() => {
+        if (true) {
+            const dbRef = ref(getDatabase());
+            //get all users
+            get(child(dbRef, `Users/`)).then((snapshot) => {
+                if (snapshot.exists()) {
+                    const myUsernamevalue = Object.entries(snapshot.val())
+                    const myUsername = myUsernamevalue.filter(item => item[0] === props.userUID)
+                    //my personal user
+                    props.setMyUserName(myUsername[0][1])
+                    //rest of the users
+                    props.setAllUsers(snapshot.val());
                 } else {
                     console.log("No data available");
                 }
@@ -38,7 +60,6 @@ const Navigation = (props) => {
             const dbRef = ref(getDatabase());
             get(child(dbRef, `CaseType/`)).then((snapshot) => {
                 if (snapshot.exists()) {
-                    // console.log(snapshot.val());
                     props.setAllCaseTypes(snapshot.val());
                 } else {
                     console.log("No data available");
@@ -48,84 +69,52 @@ const Navigation = (props) => {
             });
         }
     }, [true])
-    const GetAllLawyersFromDB = React.useCallback(() => {
-        if (true) {
-            const dbRef = ref(getDatabase());
-            get(child(dbRef, `Lawyers/`)).then((snapshot) => {
-                if (snapshot.exists()) {
-                    props.setAllLawyers(snapshot.val());
-                } else {
-                    console.log("No data available");
-                }
-            }).catch((error) => {
-                console.error(error);
-            });
-        }
-    }, [true])
 
-    const GetMessages = React.useCallback(() => {
-        if (true) {
-            const dbRef = ref(getDatabase());
-            get(child(dbRef, `Requests/`)).then((snapshot) => {
-                // Object.values(theObj).includes("bar")
-                if (snapshot.exists() && Object.values(casesNum_per_lawyer).includes(snapshot.val().CaseNum)) {
-                    console.log(snapshot.val())
-                    props.setMessages(snapshot.val())
 
-                } else {
-                }
-            }).catch((error) => {
-                console.error(error);
-            });
-        }
-    }, [true])
-
-    const GetAllClientReqFromDB = React.useCallback(() => {
-        if (true) {
-            const dbRef = ref(getDatabase());
-            get(child(dbRef, `ClientReq/`)).then((snapshot) => {
-                if (snapshot.exists()) {
-                    console.log(snapshot.val());
-                    props.setAllClientReq(snapshot.val());
-                } else {
-                    console.log("No data available");
-                }
-            }).catch((error) => {
-                console.error(error);
-            });
-        }
-    }, [true])
 
     if (defaultScreen) {
-        console.log("defaultscreenn")
         GetAllCasesFromDB()
-        GetAllClientReqFromDB()
-        GetAllLawyersFromDB()
         GetAllCaseTypeFromDB()
-
+        GetAllUsersFromDB()
         setDefaultScreen(false)
     }
 
+    useEffect(() => {
+        if (props.renderAllCases) {
+            GetAllCasesFromDB()
+            GetAllCaseTypeFromDB()
+            GetAllUsersFromDB()
+            props.setRenderAllCases(false)
+        }
+    }, [props.renderAllCases]);
+
+
     return (
+
+
+
         <div className='container-btn'>
+           
+            <div className='UserView'>
+                 <UserView myUserName={props.myUserName} setConnected={props.setConnected} setUserUID={props.setUserUID} setloginType={props.setloginType}/>
+            </div>
+            <div>
+                <LogoDashboard loginType={'Lawyer'}/>
+                
+            </div>
+
+
             <button className="btn-group" onClick={(e) => {
                 props.onClick(e, 0)
                 GetAllCasesFromDB()
             }
+
             }
             >
                 תיקים
             </button>
-            {/* <button className="btn-group" onClick={(e) => {
-                props.onClick(e, 1)
-                GetAllCasesFromDB()
-            }
-
-            }>
-                כל התיקים
-            </button> */}
             <button className="btn-group" onClick={(e) => {
-                props.onClick(e, 2)
+                props.onClick(e, 1)
                 GetAllCaseTypeFromDB()
             }
             }>
@@ -143,55 +132,34 @@ const Navigation = (props) => {
             />
 
             <button className="btn-group" onClick={(e) => {
-                props.onClick(e, 3)
+                props.onClick(e, 2)
                 GetAllCaseTypeFromDB()
-                GetAllLawyersFromDB()
+                GetAllUsersFromDB()
             }
             }>
                 יצירת תיק חדש
             </button>
             <button className="btn-group" onClick={(e) => {
-                props.onClick(e, 4)
+                props.onClick(e, 3)
             }
             }>
                 יצירת סוג תיק חדש
             </button>
-            <button className="btn-group" onClick={(e) => {
-                props.onClick(e, 5)
-                GetAllCasesFromDB()
-                GetAllLawyersFromDB()
-                GetAllCaseTypeFromDB()
 
-            }
-            }>
-                עריכת תיק קיים
-            </button>
-            <hr
+            {props.loginType === "Admin" &&
+                <hr
                     style={{
                         background: '#D0B49F',
                         color: '#D0B49F',
                         height: '3px',
                         width: '100%'
                     }}
-                />
-
-
-            {props.userType === 'Admins' 
-                
-                &&
+                />}
+            {props.loginType === "Admin" &&
                 <button className="btn-group" onClick={(e) =>
-                    props.onClick(e, 6)}>
+                    props.onClick(e, 5)}>
                     הוספת עורך דין
-                </button>
-}
-                {/* <button className="btn-group" onClick={(e) => {
-                    props.onClick(e, 7)
-                    GetAllClientReqFromDB()
-                }
-                }>
-                    בקשות לקוח
-                </button> */}
-
+                </button>}
         </div>
     )
 }

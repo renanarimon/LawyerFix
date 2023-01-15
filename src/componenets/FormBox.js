@@ -11,14 +11,6 @@ const FormBox = ({label, placeholder ,onChange, variant, onKeyDown}) => {
                 id="discr08"
                 variant={variant}>
             </textarea>
-            {/* <input
-                type='text'
-                placeholder={placeholder}
-                onChange ={onChange}
-                variant={variant}
-                onKeyDown={onKeyDown}
-            //   onChange={(e) => setText(e.target.value)}
-            /> */}
         </div>
     )
 }

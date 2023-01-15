@@ -1,7 +1,4 @@
-// import React from 'react'
 import * as React from 'react';
-import PropTypes from 'prop-types';
-import Box from '@mui/material/Box';
 import Collapse from '@mui/material/Collapse';
 import IconButton from '@mui/material/IconButton';
 import Table from '@mui/material/Table';
@@ -10,83 +7,66 @@ import TableCell from '@mui/material/TableCell';
 import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
-import Typography from '@mui/material/Typography';
 import Paper from '@mui/material/Paper';
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
-
-import { onValue, ref , set,getDatabase,child,get} from "firebase/database";
-import { display } from '@mui/system';
-
 import styled from '@emotion/styled';
-import Description from './Description';
 import TableDescription from './TableDescription';
 
 
 const Container = styled(Collapse)({
 
-".MuiCollapse-wrapper":{
-  width: 50
-}
+  ".MuiCollapse-wrapper": {
+    width: 50
+  }
 })
 
 function Row(props) {
-    
-    const { name , descriptions , index } = props;
-    const [open, setOpen] = React.useState(false);
-      
-      let descriptionKey=0
-      console.log(descriptions[index])
-      
 
+  const { name, descriptions, index } = props;
+  const [open, setOpen] = React.useState(false);
 
+  let descriptionKey = 0
 
-    
-    return (
-      
-      <React.Fragment>
-        <TableRow sx={{ '& > *': { borderBottom: 'unset' } }}>
-          <TableCell align="right">
-            <IconButton
-              aria-label="expand row"
-              size="small"
-              onClick={() => setOpen(!open)}
-            >
-              {open ? <KeyboardArrowUpIcon /> : <KeyboardArrowDownIcon />}
-            </IconButton>
-          </TableCell>
-          <TableCell align="right" component="th" scope="row">
-            {props.name}
-          </TableCell>
-          <TableCell align="right">
-            פעולות
-          </TableCell>
-          
-        </TableRow>
-        <TableRow>
-          {/* <TableCell style={{ paddingBottom: 0, paddingTop: 0 }}> */}
-            <Container in={open} timeout="auto" unmountOnExit>
-                {
-                    
-                    descriptions[index].map((description) => (  
-                        console.log(description), 
-                        descriptionKey= descriptionKey+1,
-                        // <Row key={caseTypeKey} name={name} descriptions={casesType}/> 
-                        // <p key = {descriptionKey} style={{display:"flex"}}>{description}</p>
-                        // <Description index={1} onChange={1+1}/>
-                        <TableDescription index = {descriptionKey} text={description}/>
-                    ))
-                }
-            </Container>
-          {/* </TableCell> */}
-        </TableRow>
-      </React.Fragment>
-    );
-  }
+  return (
 
-const CaseTypeTable = ({casesType,casesTypeNames}) => {
-    let caseTypeKey = -1
-    
+    <React.Fragment>
+      <TableRow sx={{ '& > *': { borderBottom: 'unset' } }}>
+        <TableCell align="right">
+          <IconButton
+            aria-label="expand row"
+            size="small"
+            onClick={() => setOpen(!open)}
+          >
+            {open ? <KeyboardArrowUpIcon /> : <KeyboardArrowDownIcon />}
+          </IconButton>
+        </TableCell>
+        <TableCell align="right" component="th" scope="row">
+          {props.name}
+        </TableCell>
+        {/* <TableCell align="right">
+          פעולות
+        </TableCell> */}
+
+      </TableRow>
+      <TableRow>
+        <Container in={open} timeout="auto" unmountOnExit>
+          {
+
+            descriptions[index].map((description) => (
+              descriptionKey = descriptionKey + 1,
+              <TableDescription index={descriptionKey} text={description} />
+            ))
+          }
+        </Container>
+      </TableRow>
+    </React.Fragment>
+  );
+}
+
+const CaseTypeTable = ({ casesType, casesTypeNames }) => {
+  let caseTypeKey = -1
+
 
   return (
     <TableContainer component={Paper}>
@@ -95,17 +75,16 @@ const CaseTypeTable = ({casesType,casesTypeNames}) => {
           <TableRow>
             <TableCell />
             <TableCell align="right">סוג התיק</TableCell>
-            <TableCell align="right">פעולות</TableCell>
+            {/* <TableCell align="right">פעולות</TableCell> */}
           </TableRow>
         </TableHead>
         <TableBody>
 
-          {    
-           casesTypeNames.map((name) => (   
-            caseTypeKey= caseTypeKey+1,
-            console.log("key check:"+caseTypeKey),
-            <Row key={caseTypeKey} name={name} descriptions={casesType} index={caseTypeKey}/> 
-          ))
+          {
+            casesTypeNames.map((name) => (
+              caseTypeKey = caseTypeKey + 1,
+              <Row key={caseTypeKey} name={name} descriptions={casesType} index={caseTypeKey} />
+            ))
           }
         </TableBody>
       </Table>

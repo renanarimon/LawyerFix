@@ -1,63 +1,26 @@
 import React from 'react'
-import Login from './componenets/Login';
+import { useState } from 'react'
+import LoginComp from './componenets/LoginComp';
 import Logo from './componenets/Logo';
-import SwitchButton from './componenets/SwitchButton';
+import LawyerDashboard from './componenets/LawyerDashboard';
+import ClientDashboard from './componenets/ClientDashboard';
 
 function App() {
-  const [loginType, setloginType] = React.useState('main');
+  const [loginType, setloginType] = React.useState('');
+  const [userUID, setUserUID] = React.useState('');
   const [Connected, setConnected] = React.useState(false);
 
-  const  openUserPortal = () => {
-    setloginType("Users");
-  };
-  const  openAdminPortal = () => {
-    setloginType("Admins");
-  };
-  const  openlawyerPortal = () => {
-    setloginType("Lawyers");
-  };
-  const BackToMain = () => {
-    setloginType("main");
-    setConnected(false);
-  }
-
-   return (
-      <div className='Lawyer-background'>
-
-        <Logo />       
-         {Connected?
-        <><button onClick={BackToMain} className="btn-casetype" style={{width:'10%',justifyContent:'right'}}>התנתק</button></>
-        :
-        <></>
-}
- 
-
-        {(loginType === 'main')?
-  
-  <div style={{display:'grid' , textAlign:'center'} }>
-    
-          <div>
-        <button onClick={openAdminPortal} className="btn-casetype" style={{width:'30%',justifyContent:'center'}}>מנהל</button>
-        </div>
-        <div>
-        <button onClick={openlawyerPortal} className="btn-casetype" style={{width:'30%',justifyContent:'center'}}>עורך דין</button>
-        </div>
-         <div>
-        <button onClick={openUserPortal} className="btn-casetype" style={{width:'30%',justifyContent:'center'}}>לקוח</button>
-        </div>
-        </div>
-        :
-        <>
-
-         {<Login loginType={loginType} setConnected={setConnected} setloginType={setloginType} />}
-
-        </>
-        }
-       
+  return (
+    <div className='Lawyer-background'>
+      { !Connected && <Logo/>}
+      <div>
+      { !Connected && <LoginComp setConnected={setConnected} setloginType={setloginType} setUserUID={setUserUID}/>}
+        {loginType ==="Lawyer" && <LawyerDashboard userUID={userUID} loginType={loginType} setConnected={setConnected} setUserUID={setUserUID} setloginType={setloginType}/>}
+        {loginType === "User" && <ClientDashboard userUID={userUID} loginType={loginType} setConnected={setConnected} setUserUID={setUserUID} setloginType={setloginType}/> }
+        {loginType === "Admin" && <LawyerDashboard userUID={userUID} loginType={loginType} setConnected={setConnected} setUserUID={setUserUID} setloginType={setloginType}/>}
+      </div>
     </div> 
-
-
   );
 }
 
-export default App;
+export default App;

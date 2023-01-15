@@ -1,27 +1,37 @@
-import React, { useEffect, useState } from 'react';
-import { TextField } from '@mui/material';
-import ClientCaseView from './ClientCaseView';
-import { getDatabase, ref, child, get } from "firebase/database";
-import Messages from './Messages';
-import WriteMessage from './WriteMessage';
+import * as React from 'react';
+import { useState , useEffect } from 'react'
+import '../index.css';
+import PreviewCompClient from './PreviewCompClient';
+import { onValue, ref, set, getDatabase, child, get } from "firebase/database";
+import UserView from './UserView';
+import LogoDashboard from './LogoDashboard';
+
+const ClientDashboard = (props) => {
+
+  //   all the cases of the specific user
+  const [allCases, setAllCases] = React.useState([])
+  const [allClientReq, setClientReq] = React.useState([])
+  const [allCasesType, setAllCasesType] = React.useState([])
+  const [handlingLawyer, setHandlingLawyer] = React.useState("")
+  const [allUsers, setAllUsers] = React.useState([]);
+  const [flag, setFlag] = React.useState(true)
+  const [myUserName, setMyUserName] = React.useState([])
+  const [renderAllCases, setRenderAllCases] = React.useState(false);
 
 
-const ClientSearch = ({userUID}) => {
-  const [showSearch, setShowSearch] = useState(true);
-  const [clientCaseId, setClientCaseId] = React.useState('');
-  const [currCaseDetails, setCurrCaseDetails] = React.useState('');
-  const [messages, SetMessages] = useState([])
 
-
-  const GetCaseData = React.useCallback((clientCaseId) => {
+  const GetAllUsersFromDB = React.useCallback(() => {
     if (true) {
-      console.log(clientCaseId)
       const dbRef = ref(getDatabase());
-      get(child(dbRef, `Cases/${clientCaseId}`)).then((snapshot) => {
+      get(child(dbRef, `Users/`)).then((snapshot) => {
         if (snapshot.exists()) {
-          setCurrCaseDetails(snapshot.val())
+          //my current username
+          const myUsernamevalue = Object.entries(snapshot.val())
+          const myUsername = myUsernamevalue.filter(item => item[0] === props.userUID)
+          setMyUserName(myUsername[0][1])
+          setAllUsers(snapshot.val());
         } else {
-          alert("case number dosen't belong to this user")
+          console.log("No data available");
         }
       }).catch((error) => {
         console.error(error);
@@ -29,19 +39,19 @@ const ClientSearch = ({userUID}) => {
     }
   }, [true])
 
-  const GetMessages = React.useCallback((clientCaseId) => {
-    
+  const GetAllCasesFromDB = React.useCallback(() => {
     if (true) {
       const dbRef = ref(getDatabase());
-      get(child(dbRef, `Requests/${clientCaseId}`)).then((snapshot) => {
+      get(child(dbRef, `Cases/`)).then((snapshot) => {
         if (snapshot.exists()) {
-          console.log(snapshot.val())
-          SetMessages(snapshot.val())
+          const b = Object.entries(snapshot.val())
+          const c = b.map((item) => item[1])
+          const d = c.filter(item => item.ClientUID === props.userUID);
+          setAllCases(d)
+
 
         } else {
-          SetMessages([])
-          console.log("cant find ref")
-
+          console.log("No data available");
         }
       }).catch((error) => {
         console.error(error);
@@ -49,52 +59,53 @@ const ClientSearch = ({userUID}) => {
     }
   }, [true])
 
-  const handleClientCaseId = (event) => {
-    setClientCaseId(event.target.value);
-  };
 
-  const OnSearchClick = () => {
-    GetCaseData(clientCaseId)
-    GetMessages(clientCaseId)
-  };
+  const GetAllCaseTypeFromDB = React.useCallback(() => {
+    if (true) {
+      const dbRef = ref(getDatabase());
+      get(child(dbRef, `CaseType/`)).then((snapshot) => {
+        if (snapshot.exists()) {
+          setAllCasesType(snapshot.val());
+        } else {
+          console.log("No data available");
+        }
+      }).catch((error) => {
+        console.error(error);
+      });
+    }
+  }, [true])
 
+  if (flag) {
+    GetAllCasesFromDB()
+    GetAllCaseTypeFromDB()
+    GetAllUsersFromDB()
+    setFlag(false)
+  }
   useEffect(() => {
-    if (currCaseDetails !== '') {
-      setShowSearch(false)
+    if (props.renderAllCases) {
+        GetAllCasesFromDB()
+        GetAllCaseTypeFromDB()
+        GetAllUsersFromDB()
+        props.setRenderAllCases(false)
     }
-  }, [currCaseDetails]);
-
-  const backToSearchBar = () => {
-    setShowSearch(true)
-  };
+}, [props.renderAllCases]);
 
   return (
-    <>
-    
-      {showSearch ?
-        <div className='container' style={{ justifyContent: 'center', display: 'grid' }}>
-          <TextField id="filled-basic" label='מספר תיק' onChange={handleClientCaseId} variant="filled" />
-          <div>
-            <button onClick={OnSearchClick} className="btn-casetype" style={{ width: '100%', marginTop: '20px' }}>חפש</button>
-          </div>
-          {/* <Button onClick={OnSearchClick}  variant="contained">חפש</Button> */}
+
+    <div>
+      <div style={{display:'flex',justifyContent:'space-between'}}>
+        <div style={{textAlign:'center',padding:'45px'}}>
+        <UserView myUserName={myUserName} setConnected={props.setConnected} setUserUID={props.setUserUID} setloginType={props.setloginType} />
         </div>
-        :
-        <>
-        <div style={{display: 'flex', justifyContent: 'space-between'}}>
-          <div style={{float: 'left', width: '30%'}}>
-            <Messages messages={messages}/>
-            <WriteMessage caseNum={clientCaseId} userType={0} GetMessages={GetMessages}/>
-            
-          </div>
-          <div style={{float: 'right', width: '60%'}}>
-            <ClientCaseView currCaseDetails={currCaseDetails} backToSearchBar={backToSearchBar}/> 
-          </div>
+        <div>
+          <LogoDashboard loginType={'user'}/>  
         </div>
-        </>
-      }
-    </>
+      </div>
+
+        <PreviewCompClient setRenderAllCases={setRenderAllCases} allCases={allCases} clientReq={allClientReq} allCaseTypes={allCasesType} handlingLawyer={handlingLawyer} allUsers={allUsers} loginType={props.loginType} />
+    </div>
 
   )
 }
-export default ClientSearch
+
+export default ClientDashboard

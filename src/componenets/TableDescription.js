@@ -1,8 +1,6 @@
 import React from 'react'
 
 const TableDescription = ({index,text}) => {
-    console.log("Description"+ {index})
-    console.log({text})
 
     return (
   

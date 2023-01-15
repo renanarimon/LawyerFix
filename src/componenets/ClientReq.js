@@ -11,20 +11,16 @@ import { getDatabase, ref, set } from "firebase/database";
 import { v4 as uuid } from 'uuid';
 
 
-const ClientReq = () => {
+const ClientReq = (props) => {
     const uid = uuid(); 
     const [openNewClientRequest, setOpenNewClientRequest] = React.useState(false);
     const [newClientRequest, setNewClientRequest] = useState('');
-    const [newClientContact, setNewClientContact] = useState('');
-    const [newClientName, setNewClientName] = useState('');
+    const [newClientTopic, setNewClientTopic] = useState('');
     const handleNewClientRequest = (event) => {
         setNewClientRequest(event.target.value);
     };
-    const handleNewClientContact = (event) => {
-        setNewClientContact(event.target.value);
-    };
-    const handleNewClientName = (event) => {
-        setNewClientName(event.target.value);
+    const handleNewClinetTopic = (event) => {
+        setNewClientTopic(event.target.value);
     };
     const handleClickOpenNewClientRequest = () => {
         setOpenNewClientRequest(true);
@@ -36,10 +32,15 @@ const ClientReq = () => {
         const db = getDatabase();
         let plaster = 'ClientReq/'+uid;
         set(ref(db, plaster), {
-            ClientName: newClientName,
-            Contact: newClientContact,
-            Request: newClientRequest,
-            Status: 0,
+            Topic: newClientTopic,
+            ClinetUID: props.userUID,
+            LawyerUID: '11111111111',
+            Chat: {
+                0 : {
+                    Role: "User",
+                    message: newClientRequest,
+                }
+            },
         })
         handleCloseNewClientRequest();
         alert("הבקשה נשלחה בהצלחה")
@@ -60,11 +61,11 @@ const ClientReq = () => {
                         autoFocus
                         multiline
                         margin="dense"
-                        id="שם"
-                        label="שם"
+                        id="נושא"
+                        label="נושא"
                         fullWidth
                         variant="standard"
-                        onChange={handleNewClientName}
+                        onChange={handleNewClinetTopic}
                     />
                     <TextField
                         autoFocus
@@ -75,15 +76,6 @@ const ClientReq = () => {
                         fullWidth
                         variant="standard"
                         onChange={handleNewClientRequest}
-                    />
-                    <TextField
-                        autoFocus
-                        margin="dense"
-                        id="pass"
-                        label="מייל/טלפון ליצירת קשר"
-                        fullWidth
-                        variant="standard"
-                        onChange={handleNewClientContact}
                     />
                 </DialogContent>
                 <DialogActions>

@@ -14,12 +14,9 @@ import Paper from '@mui/material/Paper';
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
 import QuickChanges from './QuickChanges';
-
 import { onValue, ref , set,getDatabase,child,get} from "firebase/database";
 import styled from '@emotion/styled';
 import TableDescription from './TableDescription';
-
-import SwitchButton from './SwitchButton';
 
 
 
@@ -33,7 +30,7 @@ const Container = styled(Collapse)({
 
 function Row(props) {
     
-  const { row ,cases , casesTypes ,index} = props;
+  const { row ,cases , casesTypes ,index, setRenderAllCases ,loginType} = props;
   const [open, setOpen] = React.useState(false);
   
     //filter cases type to descriptions
@@ -70,18 +67,15 @@ function Row(props) {
         <TableCell align="right">{row.ClientName}</TableCell>
         <TableCell align="right">{row.CaseType}</TableCell>
         <TableCell align="right">{row.CurrStage}</TableCell>
-        <TableCell align="right"> {<QuickChanges CaseNum={row.CaseNum} CurrStage={row.CurrStage}  currHandlingLawyers={props.allLawyers} currCaseTypeDetails={props.allCaseTypes}/>} </TableCell>
+        <TableCell align="right"> {<QuickChanges setRenderAllCases={setRenderAllCases} CaseNum={row.CaseNum} currCaseDetails={row} currCaseTypeDetails={casesTypes} loginType={loginType}/>} </TableCell>
       </TableRow>
       <TableRow>
         
           <Container in={open} timeout="auto" unmountOnExit>
-         
-            
-
              {
                 Descriptions.length>0 ? Descriptions.map((description) => (
                   descriptionKey=descriptionKey+1 ,
-                  <TableDescription index ={descriptionKey} text={description}/>
+                  <TableDescription key= {descriptionKey} index ={descriptionKey} text={description}/>
                   
                 ))
                 :
@@ -104,21 +98,18 @@ export default function CollapsibleTable(props) {
   // 0--> תיקים פעילים
   // 1--> כל התיקים
   let index = -1
-    
+
         return (
-          
             <TableContainer component={Paper}>
-              
               <Table aria-label="collapsible table">
                 <TableHead>
-                  
                   <TableRow>
                     <TableCell />
                     <TableCell align="right">מספר תיק</TableCell>
                     <TableCell align="right">שם הלקוח</TableCell>
                     <TableCell align="right">סוג התיק</TableCell>
                     <TableCell align="right">שלב נוכחי</TableCell>
-                    <TableCell align="right">פעולות</TableCell>
+                    <TableCell align="right"></TableCell>
                   </TableRow>
                 </TableHead>
                 <TableBody>
@@ -126,9 +117,8 @@ export default function CollapsibleTable(props) {
                   {
                    
                  props.cases.map((row) => (
-                    console.log(row.CaseNum),
                     index=index+1,
-                    <Row key={row.CaseNum} row={row} casesTypes={props.casesType} index={index}/>
+                    <Row key={row.CaseNum} row={row} casesTypes={props.casesType} setRenderAllCases={props.setRenderAllCases} index={index} loginType={props.loginType}/>
                   ))
                   
                   

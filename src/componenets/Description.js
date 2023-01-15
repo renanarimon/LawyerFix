@@ -2,9 +2,6 @@ import React from 'react'
 
 
 const Description = ({index,onChange}) => {
-
-    console.log("Description"+ {index})
-
   return (
 
     <div className='description-form'>

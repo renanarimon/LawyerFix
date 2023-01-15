@@ -19,18 +19,11 @@ const AddUser = (props) => {
     const handleNewLawyerPassword = (event) => {
         setNewLawyerPassword(event.target.value);
     };
-    // const handleNewStrongPassword = (event) => {
-    //     setNewStrongPassword(event.target.value);
-    // };
+
     const clearAllFields = () => {
         setNewLawyerUsername('');
         setNewLawyerName('');
         setNewLawyerPassword('');
-        // setNewStrongPassword('');
-        console.log(newLawyerUsername)
-        console.log(newLawyerName)
-        console.log(newLawyerPassword)
-        // console.log(newStrongPassword)
     };
 
 
@@ -42,20 +35,27 @@ const AddUser = (props) => {
             return
         }
         if (true) {
-            console.log(newLawyerUsername)
-            console.log(newLawyerPassword)
             createUserWithEmailAndPassword(auth, newLawyerUsername, newLawyerPassword)
                 .then((userCredential) => {
                     const user = userCredential.user;
                     const db = getDatabase();
                     let plaster;
                     if (props.userType === 'Lawyer') {
-                        plaster = 'Lawyers/' + user.uid;
-                        set(ref(db, plaster), newLawyerName)
+                        plaster = 'Users/' + user.uid;
+                        set(ref(db, plaster), {
+                            Name: newLawyerName,
+                            Role: "Lawyer",
+                        })
 
                     } else if (props.userType === 'Client') {
                         plaster = 'Users/' + user.uid;
-                        set(ref(db, plaster), newLawyerName)
+                        set(ref(db, plaster), {
+                            Name: newLawyerName,
+                            Role: "User",
+                        })
+                        props.handleNewClinetName(newLawyerName)
+                        props.setNewClinetUID(user.uid)
+                        props.setCreatedNewUser(0)
                     } else {
                         alert("ERROR: create new user")
                     }
@@ -91,14 +91,6 @@ const AddUser = (props) => {
                         onChange={handleNewLawyerPassword}
                         id="pass"
                     />
-
-                    {/* <input type='password'
-                    placeholder='סיסמת מנהל'
-                    style={{ marginTop: '20px', marginRight: '10px', width: '100%', height: '45px', borderRadius: '4px', border: '1px solid #d0b49f', boxSizing: 'border-box', direction: 'rtl' }}
-                    onChange={handleNewStrongPassword}
-                    id="pass-manager"
-
-                /> */}
 
                     <div>
                         <button onClick={createNewUser} className="btn-casetype" style={{ marginTop: '20px', width: '100%' }}>הוסף משתמש</button>
